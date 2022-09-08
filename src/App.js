@@ -1,9 +1,11 @@
 import React from "react";
+import Home from './pages/Home'
+import style from "./pages/styles";
 
 function App() {
   return (
-    <div className="App">
-      Home
+    <div className={style.bg}>
+      <Home />
     </div>
   );
 }
