@@ -2,10 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-/* :root {
+body{
+  background-color: var(--darker);
+}
+
+:root {
     --light: #eee;
     --dark: #342F4E;
     --darker: #262336;
     --blue: #61DAFB;
     --crimson: #DB3052;
-  } */
+  }
