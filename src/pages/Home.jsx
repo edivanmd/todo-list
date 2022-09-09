@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { AiFillPlusCircle } from 'react-icons/ai';
 import { db } from '../firebase';
-import { collection, onSnapshot, query, updateDoc, doc, addDoc } from 'firebase/firestore';
+import { collection, onSnapshot, query, updateDoc, doc, addDoc, deleteDoc } from 'firebase/firestore';
 import Task from './Task';
 import style from './styles';
 
@@ -32,6 +32,7 @@ const Home = () => {
             tasksArr.push({...doc.data(), id: doc.id})
           });
           setTasks(tasksArr);
+          
         });
         return () => unsubscribe();
     },[])
@@ -44,6 +45,9 @@ const Home = () => {
     }
 
     //Delete task
+    const deleteTask = async (id) => {
+        await deleteDoc(doc(db, 'tasks', id))
+    }
 
     return (
         <div className={style.wrapHome}>
@@ -58,10 +62,17 @@ const Home = () => {
                 />
                 <button className={style.buttonAdd}><AiFillPlusCircle size={30} color="#fff" /></button>
             </form>
-            <p className={style.count}> You have got <span className={style.numberCount}>{`${tasks.length}`}</span> tasks</p>
+            {console.log(tasks)}
+            {tasks.length < 1 ? null : <p className={style.count}> You have got <span className={style.numberCount}>{`${tasks.length}`}</span> tasks</p>  }
+            
             <ul className={style.gridContainer}>
                 {tasks.map((task, index) => (
-                    <Task key={index} task={task} toggleComplete={toggleComplete} />
+                    <Task 
+                        key={index} 
+                        task={task} 
+                        toggleComplete={toggleComplete} 
+                        deleteTask={deleteTask} 
+                    />
                 ))}
             </ul>
         </div>
