@@ -6,9 +6,11 @@ const Task = ({ task }) => {
   return (
     <>
         <li className={style.box}>
-            <input type='checkbox' />
-            <p className={style.text}>{task}</p>
-            <button className={style.buttonDelete}><BsFillTrashFill size={20}/></button>
+            <div className={style.info}>
+              <input className={style.checkbox} type='checkbox' />
+              <p className={style.text}>{task.text}</p>
+            </div>
+            <button className={style.buttonDelete}><span>Remove task</span> <BsFillTrashFill size={20}/></button>
         </li>
     </>
   )

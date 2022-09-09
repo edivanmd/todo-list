@@ -1,13 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AiFillPlusCircle } from 'react-icons/ai';
+import { db } from '../firebase';
+import { collection, onSnapshot, query } from 'firebase/firestore';
 import Task from './Task';
 import style from './styles';
 
 const Home = () => {
-    const [tasks, setTasks] = useState(['Pay rent', 'Call Anne']);
+    const [tasks, setTasks] = useState([]);
+
+
+    //Create task
+    
+    //Read task
+    useEffect(() => {
+        const q = query(collection(db, 'tasks'));
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+          let tasksArr = [];
+          querySnapshot.forEach((doc) => {
+            tasksArr.push({...doc.data(), id: doc.id})
+          });
+          setTasks(tasksArr);
+        });
+        return () => unsubscribe();
+    },[])
+
+    //Update task
+    //Delete task
 
     return (
-        <div className="container mx-auto">
+        <div className={style.wrapHome}>
             <h3 className={style.heading}>My Todo List</h3>
             <form className={style.form} action="">
                 <input className={style.input} type='text' placeholder='Add new task' />

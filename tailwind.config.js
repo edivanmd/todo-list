@@ -8,7 +8,8 @@ module.exports = {
         dark: "#342F4E",
         darker: "#262336",
         blue: "#61DAFB",
-        crimson: "#DB3052"
+        crimson: "#DB3052",
+        gray: "#808080"
       },
       fontFamily: {
         'fira': ['"Fira Sans"', 'sans-serif']
