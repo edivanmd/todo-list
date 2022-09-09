@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { AiFillPlusCircle } from 'react-icons/ai';
 import { db } from '../firebase';
-import { collection, onSnapshot, query } from 'firebase/firestore';
+import { collection, onSnapshot, query, updateDoc, doc } from 'firebase/firestore';
 import Task from './Task';
 import style from './styles';
 
@@ -10,7 +10,7 @@ const Home = () => {
 
 
     //Create task
-    
+
     //Read task
     useEffect(() => {
         const q = query(collection(db, 'tasks'));
@@ -25,6 +25,12 @@ const Home = () => {
     },[])
 
     //Update task
+    const toggleComplete = async (task) => {
+        await updateDoc(doc(db, 'tasks', task.id), {
+            completed: !task.completed
+        })
+    }
+
     //Delete task
 
     return (
@@ -37,7 +43,7 @@ const Home = () => {
             <p className={style.count}> You have got 3 tasks</p>
             <ul className={style.gridContainer}>
                 {tasks.map((task, index) => (
-                    <Task key={index} task={task} />
+                    <Task key={index} task={task} toggleComplete={toggleComplete} />
                 ))}
             </ul>
         </div>
