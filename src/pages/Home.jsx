@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { AiFillPlusCircle } from 'react-icons/ai';
 import { db } from '../firebase';
-import { collection, onSnapshot, query, updateDoc, doc, addDoc, deleteDoc } from 'firebase/firestore';
+import { collection, onSnapshot, query, updateDoc, doc, addDoc, deleteDoc, where } from 'firebase/firestore';
 import Task from './Task';
 import style from './styles';
 
 const Home = () => {
     const [tasks, setTasks] = useState([]);
+    const [tasks2, setTasks2] = useState([]);
     const [input, setInput] = useState("");
 
     //Create task
@@ -26,16 +27,25 @@ const Home = () => {
     //Read task
     useEffect(() => {
         const q = query(collection(db, 'tasks'));
+        const q2 = query(collection(db, 'tasks'), where("completed", "==", false));
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
           let tasksArr = [];
           querySnapshot.forEach((doc) => {
             tasksArr.push({...doc.data(), id: doc.id})
           });
           setTasks(tasksArr);
-          
         });
-        return () => unsubscribe();
+
+        const unsubscribe2 = onSnapshot(q2, (querySnapshot2) => {
+            let tasksArr2 = [];
+            querySnapshot2.forEach((doc) => {
+            tasksArr2.push({...doc.data(), id: doc.id})
+            });
+            setTasks2(tasksArr2);
+        });
+        return () => {unsubscribe(); unsubscribe2()};
     },[])
+
 
     //Update task
     const toggleComplete = async (task) => {
@@ -63,8 +73,8 @@ const Home = () => {
                 <button className={style.buttonAdd}><AiFillPlusCircle size={30} color="#fff" /></button>
             </form>
             {console.log(tasks)}
-            {tasks.length < 1 ? null : <p className={style.count}> You have got <span className={style.numberCount}>{`${tasks.length}`}</span> tasks</p>  }
-            
+            {tasks.length < 1 ? null : <p className={style.count}> You have got <span className={style.numberCount}>{`${tasks2.length}`}</span> tasks to be completed</p>  }
+
             <ul className={style.gridContainer}>
                 {tasks.map((task, index) => (
                     <Task 
