@@ -21,7 +21,11 @@ const style = {
     tab: 'nav nav-tabs flex flex-col md:flex-row flex-wrap list-none border-b-0 pl-0 mb-4',
     liTab: '',
     linkTab: 'nav-link block font-medium text-xs leading-tight uppercase border-x-0 border-t-0 border-b-2 border-transparent px-6 py-3 my-2 hover:border-transparent hover:bg-gray-100 focus:border-transparent',
-    contentTab: 'tab-pane fade show active'
+    contentTab: 'tab-pane fade show active',
+
+    //modal: 'hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full',
+    //modalWrap: 'relative p-4 w-full max-w-md h-full md:h-auto',
+
 }
 
   export default style;

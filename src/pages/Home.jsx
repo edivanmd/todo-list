@@ -3,6 +3,7 @@ import { AiFillPlusCircle } from 'react-icons/ai';
 import { db } from '../firebase';
 import { collection, onSnapshot, query, updateDoc, doc, addDoc, deleteDoc, where } from 'firebase/firestore';
 import Task from './Task';
+import Modal from './Modal';
 import style from './styles';
 
 const Home = () => {
@@ -10,6 +11,15 @@ const Home = () => {
     const [tasks2, setTasks2] = useState([]);
     const [input, setInput] = useState("");
 
+    const [modal, setModal] = useState(false);
+    const [details, setDetails] = useState({});
+
+    const handleClose = () => setModal(!modal)
+    const handleShow = (task) => {
+        setModal(!modal);
+        setDetails(task);
+    }
+    
     //Create task
     const createTask = async (e) => {
         e.preventDefault(e);
@@ -56,7 +66,8 @@ const Home = () => {
 
     //Delete task
     const deleteTask = async (id) => {
-        await deleteDoc(doc(db, 'tasks', id))
+        await deleteDoc(doc(db, 'tasks', id));
+        handleClose();
     }
 
     return (
@@ -72,20 +83,29 @@ const Home = () => {
                 />
                 <button className={style.buttonAdd}><AiFillPlusCircle size={30} color="#fff" /></button>
             </form>
-            {console.log(tasks)}
-            {tasks.length < 1 ? null : <p className={style.count}> You have got <span className={style.numberCount}>{`${tasks2.length}`}</span> tasks to be completed</p>  }
 
+
+            {tasks.length < 1 ? null : <p className={style.count}> You have got <span className={style.numberCount}>{`${tasks2.length}`}</span> tasks to be completed</p>  }
             <ul className={style.gridContainer}>
                 {tasks.map((task, index) => (
                     <Task 
                         key={index} 
                         task={task} 
                         toggleComplete={toggleComplete} 
-                        deleteTask={deleteTask} 
+                        deleteTask={deleteTask}
+                        handleShow={handleShow}
                     />
-                ))}
+                    ))}
             </ul>
+            
+            <Modal 
+                open={modal}
+                handleClose={handleClose}
+                details={details}
+                deleteTask={deleteTask}
+            />
         </div>
+
     )
 }
 
