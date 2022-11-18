@@ -4,6 +4,7 @@
 React \
 JavaScript \
 Tailwind 5 \
+Framer Motion \
 Firebase 
 
 # Getting Started with Create React App
