@@ -1,5 +1,4 @@
 import React from 'react';
-import style from './styles';
 
 const Modal = ({ open, handleClose, details, deleteTask }) => {
   if (!open) return null;
@@ -10,7 +9,7 @@ const Modal = ({ open, handleClose, details, deleteTask }) => {
             onClick={handleClose}
         ></div>
         <div className="flex items-center min-h-screen px-4 py-8">
-            <div className="relative w-full max-w-lg p-4 mx-auto bg-white rounded-md shadow-lg">
+            <div className="relative w-full max-w-lg p-4 mx-auto rounded-md shadow-lg">
                 <div className="mt-3 sm:flex">
                     <div className="flex items-center justify-center flex-none w-12 h-12 mx-auto bg-red-100 rounded-full">
                         <svg
